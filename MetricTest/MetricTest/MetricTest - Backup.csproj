@@ -20,7 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Les2\Les2\MetricsManager.csproj" />
+    <ProjectReference Include="..\..\Les2\Les2\Les2.csproj" />
   </ItemGroup>
 
 </Project>
