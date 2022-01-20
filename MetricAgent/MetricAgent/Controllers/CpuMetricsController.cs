@@ -12,46 +12,44 @@ namespace MetricAgent.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class CpuMetricsController : ControllerBase
+    public class CpuMetricController : ControllerBase
     {
-        [HttpGet("sql-read-write-test")]
-        public IActionResult TryToInsertAndRead()
-        {
-        private ICpuMetricRepository repository;
 
-        public CpuMetricsController(ICpuMetricRepository repository)
-        {
-            this.repository = repository;
-        }
+            private ICpuMetricRepository repository;
 
-        [HttpPost("create")]
-        public IActionResult Create([FromBody] CpuMetricCreateRequest request)
-        {
-            repository.Create(new CpuMetric
+            public CpuMetricController(ICpuMetricRepository repository)
             {
-                Time = request.Time,
-                Value = request.Value
-            });
-
-            return Ok();
-        }
-
-        [HttpGet("all")]
-        public IActionResult GetAll()
-        {
-            var metrics = repository.GetAll();
-
-            var response = new AllCpuMetricsResponse()
-            {
-                Metrics = new List<CpuMetricDto>()
-            };
-
-            foreach (var metric in metrics)
-            {
-                response.Metrics.Add(new CpuMetricDto { Time = metric.Time, Value = metric.Value, Id = metric.Id });
+                this.repository = repository;
             }
 
-            return Ok(response);
-        }
+            [HttpPost("create")]
+            public IActionResult Create([FromBody] CpuMetricCreateRequest request)
+            {
+                repository.Create(new CpuMetric
+                {
+                    Time = request.Time,
+                    Value = request.Value
+                });
+
+                return Ok();
+            }
+
+            [HttpGet("all")]
+            public IActionResult GetAll()
+            {
+                var metrics = repository.GetAll();
+
+                var response = new AllCpuMetricsResponse()
+                {
+                    Metrics = new List<CpuMetricDto>()
+                };
+
+                foreach (var metric in metrics)
+                {
+                    response.Metrics.Add(new CpuMetricDto { Time = metric.Time, Value = metric.Value, Id = metric.Id });
+                }
+
+                return Ok(response);
+            }
     }
 }
