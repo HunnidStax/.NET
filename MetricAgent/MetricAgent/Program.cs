@@ -2,24 +2,17 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using NLog.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Les2
+namespace MetricAgent
 {
     public class Program
     {
         public static void Main(string[] args)
         {
-            var config = new ConfigurationBuilder()
-               .SetBasePath(System.IO.Directory.GetCurrentDirectory())
-               .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
-               .Build();
-
-            NLog.LogManager.Configuration = new NLogLoggingConfiguration(config.GetSection("NLog"));
             CreateHostBuilder(args).Build().Run();
         }
 
@@ -28,12 +21,6 @@ namespace Les2
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();
-                })
-        .ConfigureLogging(logging =>
-                {
-            logging.ClearProviders();
-            logging.SetMinimumLevel(LogLevel.Trace);
-        })
-                .UseNLog();
+                });
     }
 }
