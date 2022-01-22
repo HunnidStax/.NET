@@ -24,8 +24,10 @@ namespace MetricsAgent
         {
             services.AddControllers();
             ConfigureSqlLiteConnection(services);
-            services.AddSingleton<ICpuMetricRepository, CpuMetricsRepository>();
             services.AddSingleton<IHddMetricRepository, HddMetricRepository>();
+            services.AddSingleton<IRamMetricRepository, RamMetricRepository>();
+            services.AddSingleton<ICpuMetricRepository, CpuMetricsRepository>();
+            services.AddSingleton<INetworkMetricRepository, NetworkMetricsRepository>();
         }
 
         private void ConfigureSqlLiteConnection(IServiceCollection services)
@@ -55,6 +57,15 @@ namespace MetricsAgent
 
 
                 command.CommandText = @"CREATE TABLE hddmetrics(id INTEGER PRIMARY KEY,
+                    value LONG)";
+                command.ExecuteNonQuery();
+
+                //ram
+                command.CommandText = "DROP TABLE IF EXISTS rammetrics";
+                command.ExecuteNonQuery();
+
+
+                command.CommandText = @"CREATE TABLE rammetrics(id INTEGER PRIMARY KEY,
                     value LONG)";
                 command.ExecuteNonQuery();
             }

@@ -24,7 +24,6 @@ namespace Les2.Controllers
         [HttpGet("agentId/{agentId}/left/{TotalFreeSpace}")]
         public IActionResult GetMetrics([FromRoute] int agentId, [FromRoute] long TotalFreeSpace)
         {
-            _logger.LogInformation("лог работает");
             return Ok();
         }
     }

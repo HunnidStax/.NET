@@ -1,20 +1,54 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using MetricAgent.DAL;
+using MetricAgent.Models;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Les2.Controllers
+namespace MetricAgent.Controllers
 {
-    [Route("api/metrics/network")]
+    [Route("api/[controller]")]
     [ApiController]
     public class NetworkMetricController : ControllerBase
     {
-        [HttpGet("agent/{agentId}/from/{fromDate}/to/{toDate}")]
-        public IActionResult GetMetrics([FromRoute] int agentId, [FromRoute] TimeSpan fromDate, [FromRoute] TimeSpan toDate)
+
+        private readonly INetworkMetricRepository repository;
+
+        public NetworkMetricController(INetworkMetricRepository repository)
         {
+            this.repository = repository;
+        }
+
+        [HttpPost("create")]
+        public IActionResult Create([FromBody] NetworkMetricCreateRequest request)
+        {
+            repository.Create(new NetworkMetric
+            {
+                Time = request.Time,
+                Value = request.Value
+            });
+
             return Ok();
+        }
+
+        [HttpGet("all")]
+        public IActionResult GetAll()
+        {
+            var metrics = repository.GetAll();
+
+            var response = new AllNetworkMetricsResponse()
+            {
+                Metrics = new List<NetworkMetricDto>()
+            };
+
+            foreach (var metric in metrics)
+            {
+                response.Metrics.Add(new NetworkMetricDto { Time = metric.Time, Value = metric.Value, Id = metric.Id });
+            }
+
+            return Ok(response);
         }
     }
 }

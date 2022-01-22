@@ -14,9 +14,9 @@ namespace Les2.Controllers
     public class CpuMetricsController : ControllerBase
     {
         private readonly ILogger<CpuMetricsController> _logger;
-        private readonly MetricAgent.DAL.ICpuMetricRepository _cpuMetricRepository;
+        private readonly MetricAgent.DAL.INetworkMetricRepository _cpuMetricRepository;
 
-        public CpuMetricsController(ILogger<CpuMetricsController> logger, MetricAgent.DAL.ICpuMetricRepository cpuMetricRepository)
+        public CpuMetricsController(ILogger<CpuMetricsController> logger, MetricAgent.DAL.INetworkMetricRepository cpuMetricRepository)
         {
             _logger = logger;
             _cpuMetricRepository = cpuMetricRepository;

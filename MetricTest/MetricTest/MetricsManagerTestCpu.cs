@@ -10,12 +10,12 @@ namespace MetricTest
     public class MetricsManagerTestCpu
     {
         private Mock<ILogger<CpuMetricsController>> _loggerMock;
-        private Mock<MetricAgent.DAL.ICpuMetricRepository> _cpuMetricRepositoryMock;
+        private Mock<MetricAgent.DAL.INetworkMetricRepository> _cpuMetricRepositoryMock;
 
         public MetricsManagerTestCpu()
         {
             _loggerMock = new Mock<ILogger<CpuMetricsController>>();
-            _cpuMetricRepositoryMock = new Mock<MetricAgent.DAL.ICpuMetricRepository>();
+            _cpuMetricRepositoryMock = new Mock<MetricAgent.DAL.INetworkMetricRepository>();
         }
 
         [Fact]

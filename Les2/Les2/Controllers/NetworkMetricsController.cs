@@ -13,11 +13,12 @@ namespace Les2.Controllers
     public class NetworkMetricsController : ControllerBase
     {
         private readonly ILogger<NetworkMetricsController> _logger;
+        private readonly MetricAgent.DAL.INetworkMetricRepository _networkMetricRepository;
 
-        public NetworkMetricsController(ILogger<NetworkMetricsController> logger)
+        public NetworkMetricsController(ILogger<NetworkMetricsController> logger, MetricAgent.DAL.INetworkMetricRepository networkMetricRepository)
         {
             _logger = logger;
-            _logger.LogDebug(1, "NLog встроен");
+            _networkMetricRepository = networkMetricRepository;
         }
         [HttpGet("agent/{agentId}/from/{fromDate}/to/{toDate}")]
         public IActionResult GetMetrics([FromRoute] int agentId, [FromRoute] TimeSpan fromDate, [FromRoute] TimeSpan toDate)

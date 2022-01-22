@@ -13,16 +13,16 @@ namespace Les2.Controllers
     public class RamMetricsController : ControllerBase
     {
         private readonly ILogger<RamMetricsController> _logger;
+        private readonly MetricAgent.DAL.IRamMetricRepository _ramMetricRepository;
 
-        public RamMetricsController(ILogger<RamMetricsController> logger)
+        public RamMetricsController(ILogger<RamMetricsController> logger, MetricAgent.DAL.IRamMetricRepository ramMetricRepository)
         {
             _logger = logger;
-            _logger.LogDebug(1, "NLog встроен");
+            _ramMetricRepository = ramMetricRepository;
         }
-        [HttpGet("available/{agentId}/from/{fromDate}/to/{toDate}")]
-        public IActionResult GetMetrics([FromRoute] int agentId, [FromRoute] TimeSpan fromDate, [FromRoute] TimeSpan toDate)
+        [HttpGet("agentId/{agentId}/left/{TotalFreeSpace}")]
+        public IActionResult GetMetrics([FromRoute] int agentId, [FromRoute] long TotalFreeSpace)
         {
-            _logger.LogInformation("лог работает");
             return Ok();
         }
     }
