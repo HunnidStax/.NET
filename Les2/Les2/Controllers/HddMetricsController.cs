@@ -13,14 +13,16 @@ namespace Les2.Controllers
     public class HddMetricsController : ControllerBase
     {
         private readonly ILogger<HddMetricsController> _logger;
+        private readonly MetricAgent.DAL.IHddMetricRepository _hddMetricRepository;
 
-        public HddMetricsController(ILogger<HddMetricsController> logger)
+        public HddMetricsController(ILogger<HddMetricsController> logger, MetricAgent.DAL.IHddMetricRepository hddMetricRepository)
         {
             _logger = logger;
-            _logger.LogDebug(1, "NLog встроен");
+            _hddMetricRepository = hddMetricRepository;
         }
-        [HttpGet("left/{agentId}/from/{fromDate}/to/{toDate}")]
-        public IActionResult GetMetrics([FromRoute] int agentId, [FromRoute] TimeSpan fromDate, [FromRoute] TimeSpan toDate)
+
+        [HttpGet("agentId/{agentId}/left/{TotalFreeSpace}")]
+        public IActionResult GetMetrics([FromRoute] int agentId, [FromRoute] long TotalFreeSpace)
         {
             _logger.LogInformation("лог работает");
             return Ok();

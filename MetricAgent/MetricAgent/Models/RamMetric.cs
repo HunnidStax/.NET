@@ -5,12 +5,9 @@ using System.Threading.Tasks;
 
 namespace MetricAgent.Models
 {
-    public class CpuMetric
+    public class RamMetric
     {
         public int Id { get; set; }
-
-        public int Value { get; set; }
-
-        public TimeSpan Time { get; set; }
+        public int TotalFreeSpace { get; set; }
     }
 }

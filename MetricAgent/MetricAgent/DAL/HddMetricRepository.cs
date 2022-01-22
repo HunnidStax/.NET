@@ -2,23 +2,20 @@
 using System;
 using System.Collections.Generic;
 using System.Data.SQLite;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace MetricAgent.DAL
 {
-    public class CpuMetricsRepository : ICpuMetricRepository
+    public class HddMetricRepository : IHddMetricRepository
     {
         private const string ConnectionString = "Data Source=metrics.db;Version=3;Pooling=true;Max Pool Size=100;";
 
-        public void Create(CpuMetric item)
+        public void Create(HddMetric item)
         {
             using var connection = new SQLiteConnection(ConnectionString);
             connection.Open();
             using var cmd = new SQLiteCommand(connection);
-            cmd.CommandText = "INSERT INTO cpumetrics(value, time) VALUES(@value, @time)";
-            cmd.Parameters.AddWithValue("@value", item.Value);
-            cmd.Parameters.AddWithValue("@time", item.Time.TotalSeconds);
+            cmd.CommandText = "INSERT INTO hddmetrics(value, time) VALUES(@value, @time)";
+            cmd.Parameters.AddWithValue("@value", item.TotalFreeSpace);
             cmd.Prepare();
             cmd.ExecuteNonQuery();
         }
@@ -28,27 +25,26 @@ namespace MetricAgent.DAL
             using var connection = new SQLiteConnection(ConnectionString);
             connection.Open();
             using var cmd = new SQLiteCommand(connection);
-            cmd.CommandText = "DELETE FROM cpumetrics WHERE id=@id";
+            cmd.CommandText = "DELETE FROM hddmetrics WHERE id=@id";
 
             cmd.Parameters.AddWithValue("@id", id);
             cmd.Prepare();
             cmd.ExecuteNonQuery();
         }
 
-        public void Update(CpuMetric item)
+        public void Update(HddMetric item)
         {
             using var connection = new SQLiteConnection(ConnectionString);
             using var cmd = new SQLiteCommand(connection);
-            cmd.CommandText = "UPDATE cpumetrics SET value = @value, time = @time WHERE id = @id;";
+            cmd.CommandText = "UPDATE hddmetrics SET value = @totalfreespace, time = @time WHERE id = @id;";
             cmd.Parameters.AddWithValue("@id", item.Id);
-            cmd.Parameters.AddWithValue("@value", item.Value);
-            cmd.Parameters.AddWithValue("@time", item.Time.TotalSeconds);
+            cmd.Parameters.AddWithValue("@value", item.TotalFreeSpace);
             cmd.Prepare();
 
             cmd.ExecuteNonQuery();
         }
 
-        public IList<CpuMetric> GetAll()
+        public IList<HddMetric> GetAll()
         {
             using var connection = new SQLiteConnection(ConnectionString);
             connection.Open();
@@ -56,17 +52,16 @@ namespace MetricAgent.DAL
 
             cmd.CommandText = "SELECT * FROM cpumetrics";
 
-            var returnList = new List<CpuMetric>();
+            var returnList = new List<HddMetric>();
 
             using (SQLiteDataReader reader = cmd.ExecuteReader())
             {
                 while (reader.Read())
                 {
-                    returnList.Add(new CpuMetric
+                    returnList.Add(new HddMetric
                     {
                         Id = reader.GetInt32(0),
-                        Value = reader.GetInt32(1),
-                        Time = TimeSpan.FromSeconds(reader.GetInt32(2))
+                        TotalFreeSpace = reader.GetInt32(1),
                     });
                 }
             }
@@ -74,21 +69,20 @@ namespace MetricAgent.DAL
             return returnList;
         }
 
-        public CpuMetric GetById(int id)
+        public HddMetric GetById(int id)
         {
             using var connection = new SQLiteConnection(ConnectionString);
             connection.Open();
             using var cmd = new SQLiteCommand(connection);
-            cmd.CommandText = "SELECT * FROM cpumetrics WHERE id=@id";
+            cmd.CommandText = "SELECT * FROM hddmetrics WHERE id=@id";
             using (SQLiteDataReader reader = cmd.ExecuteReader())
             {
                 if (reader.Read())
                 {
-                    return new CpuMetric
+                    return new HddMetric
                     {
                         Id = reader.GetInt32(0),
-                        Value = reader.GetInt32(1),
-                        Time = TimeSpan.FromSeconds(reader.GetInt32(1))
+                        TotalFreeSpace = reader.GetInt32(1),
                     };
                 }
                 else
@@ -98,4 +92,5 @@ namespace MetricAgent.DAL
             }
         }
     }
+}
 }

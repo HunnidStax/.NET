@@ -14,17 +14,17 @@ namespace Les2.Controllers
     public class CpuMetricsController : ControllerBase
     {
         private readonly ILogger<CpuMetricsController> _logger;
+        private readonly MetricAgent.DAL.ICpuMetricRepository _cpuMetricRepository;
 
-        public CpuMetricsController(ILogger<CpuMetricsController> logger)
+        public CpuMetricsController(ILogger<CpuMetricsController> logger, MetricAgent.DAL.ICpuMetricRepository cpuMetricRepository)
         {
             _logger = logger;
-            _logger.LogDebug(1, "NLog встроен в CpuMetricsController");
+            _cpuMetricRepository = cpuMetricRepository;
         }
 
         [HttpGet("agent/{agentId}/from/{fromDate}/to/{toDate}")]
         public IActionResult GetMetrics([FromRoute] int agentId, [FromRoute] TimeSpan fromDate, [FromRoute] TimeSpan toDate)
         {
-            _logger.LogInformation("лог работает");
             return Ok();
         }
 

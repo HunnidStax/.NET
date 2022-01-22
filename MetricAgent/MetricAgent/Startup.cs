@@ -3,8 +3,10 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using System.Data.SQLite;
 using MetricAgent.DAL;
+using Microsoft.Data.Sqlite;
+using System.Data.SQLite;
+using System;
 
 namespace MetricsAgent
 {
@@ -22,13 +24,14 @@ namespace MetricsAgent
         {
             services.AddControllers();
             ConfigureSqlLiteConnection(services);
-            services.AddScoped<ICpuMetricRepository, CpuMetricsRepository>();
+            services.AddSingleton<ICpuMetricRepository, CpuMetricsRepository>();
+            services.AddSingleton<IHddMetricRepository, HddMetricRepository>();
         }
 
         private void ConfigureSqlLiteConnection(IServiceCollection services)
         {
             const string connectionString = "Data Source=metrics.db;Version=3;Pooling=true;Max Pool Size=100;";
-            var connection = new SQLiteConnection(connectionString);
+            var connection = new SqliteConnection(connectionString);
             connection.Open();
             PrepareSchema(connection);
         }
@@ -37,15 +40,22 @@ namespace MetricsAgent
         {
             using (var command = new SQLiteCommand(connection))
             {
-                // задаем новый текст команды для выполнения
-                // удаляем таблицу с метриками если она существует в базе данных
+                //cpu
                 command.CommandText = "DROP TABLE IF EXISTS cpumetrics";
-                // отправляем запрос в базу данных
                 command.ExecuteNonQuery();
 
 
                 command.CommandText = @"CREATE TABLE cpumetrics(id INTEGER PRIMARY KEY,
                     value INT, time INT)";
+                command.ExecuteNonQuery();
+
+                //hdd
+                command.CommandText = "DROP TABLE IF EXISTS hddmetrics";
+                command.ExecuteNonQuery();
+
+
+                command.CommandText = @"CREATE TABLE hddmetrics(id INTEGER PRIMARY KEY,
+                    value LONG)";
                 command.ExecuteNonQuery();
             }
         }

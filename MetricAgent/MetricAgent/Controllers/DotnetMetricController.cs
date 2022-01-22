@@ -9,7 +9,7 @@ namespace Les2.Controllers
 {
     [Route("api/metrics/dotnet")]
     [ApiController]
-    public class DotnetMetricsController : ControllerBase
+    public class DotnetMetricController : ControllerBase
     {
         [HttpGet("errors-count/{agentId}/from/{fromDate}/to/{toDate}")]
         public IActionResult GetMetrics([FromRoute] int agentId, [FromRoute] TimeSpan fromDate, [FromRoute] TimeSpan toDate)

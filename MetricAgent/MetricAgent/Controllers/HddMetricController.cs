@@ -7,11 +7,11 @@ using System.Threading.Tasks;
 
 namespace Les2.Controllers
 {
-    [Route("api/metrics/ram")]
+    [Route("api/metrics/hdd")]
     [ApiController]
-    public class RamMetricsController : ControllerBase
+    public class HddMetricController : ControllerBase
     {
-        [HttpGet("available/{agentId}/from/{fromDate}/to/{toDate}")]
+        [HttpGet("left/{agentId}/from/{fromDate}/to/{toDate}")]
         public IActionResult GetMetrics([FromRoute] int agentId, [FromRoute] TimeSpan fromDate, [FromRoute] TimeSpan toDate)
         {
             return Ok();

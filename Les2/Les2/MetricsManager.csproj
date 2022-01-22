@@ -6,6 +6,11 @@
 
   <ItemGroup>
     <PackageReference Include="NLog.Extensions.Logging" Version="1.7.4" />
+    <PackageReference Include="System.Data.SQLite.Core" Version="1.0.115.5" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\MetricAgent\MetricAgent\MetricAgent.csproj" />
   </ItemGroup>
 
 
