@@ -7,12 +7,12 @@ using Microsoft.Extensions.Logging;
 
 namespace MetricTest
 {
-    public class  MetricsManagerTestHdd
+    public class  HddMetricsControllerTest
     {
         private Mock<ILogger<HddMetricsController>> _loggerMock;
         private Mock<MetricAgent.DAL.IHddMetricRepository> _hddMetricRepositoryMock;
 
-        public MetricsManagerTestHdd()
+        public HddMetricsControllerTest()
         {
             _loggerMock = new Mock<ILogger<HddMetricsController>>();
             _hddMetricRepositoryMock = new Mock<MetricAgent.DAL.IHddMetricRepository>();

@@ -7,12 +7,12 @@ using Les2.Controllers;
 
 namespace MetricTest
 {
-    public class MetricsManagerTestNetwork
+    public class NetworkMetricsControllerTest
     {
         private Mock<ILogger<NetworkMetricsController>> _loggerMock;
         private Mock<MetricAgent.DAL.INetworkMetricRepository> _networkMetricRepositoryMock;
 
-        public MetricsManagerTestNetwork()
+        public NetworkMetricsControllerTest()
         {
             _loggerMock = new Mock<ILogger<NetworkMetricsController>>();
             _networkMetricRepositoryMock = new Mock<MetricAgent.DAL.INetworkMetricRepository>();

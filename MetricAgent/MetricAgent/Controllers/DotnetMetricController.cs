@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Les2.Controllers
+namespace MetricAgent.Controllers
 {
     [Route("api/metrics/dotnet")]
     [ApiController]

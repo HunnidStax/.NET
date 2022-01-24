@@ -7,12 +7,12 @@ using Les2.Controllers;
 
 namespace MetricTest
 {
-    public class MetricsManagerTestRam
+    public class RamMetricsControllerTest
     {
         private Mock<ILogger<RamMetricsController>> _loggerMock;
         private Mock<MetricAgent.DAL.IRamMetricRepository> _ramMetricRepositoryMock;
 
-        public MetricsManagerTestRam()
+        public RamMetricsControllerTest()
         {
             _loggerMock = new Mock<ILogger<RamMetricsController>>();
             _ramMetricRepositoryMock = new Mock<MetricAgent.DAL.IRamMetricRepository>();

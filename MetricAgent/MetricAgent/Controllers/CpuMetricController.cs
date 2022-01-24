@@ -5,6 +5,7 @@ using MetricAgent.Requests;
 using MetricAgent.Responses;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
+using Microsoft.Extensions.Logging;
 
 namespace MetricAgent.Controllers
 {
@@ -12,6 +13,14 @@ namespace MetricAgent.Controllers
     [ApiController]
     public class CpuMetricController : ControllerBase
     {
+        private readonly ILogger<CpuMetricController> _logger;
+        private readonly ICpuMetricRepository _cpuMetricRepository;
+
+        public CpuMetricController(ILogger<CpuMetricController> logger, ICpuMetricRepository cpuMetricRepository)
+        {
+            _logger = logger;
+            _cpuMetricRepository = cpuMetricRepository;
+        }
 
         private readonly ICpuMetricRepository repository;
 

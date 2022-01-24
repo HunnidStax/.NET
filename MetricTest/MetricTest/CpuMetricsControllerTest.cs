@@ -7,12 +7,12 @@ using Microsoft.Extensions.Logging;
 
 namespace MetricTest
 {
-    public class MetricsManagerTestCpu
+    public class CpuMetricsControllerTest
     {
         private Mock<ILogger<CpuMetricsController>> _loggerMock;
         private Mock<MetricAgent.DAL.INetworkMetricRepository> _cpuMetricRepositoryMock;
 
-        public MetricsManagerTestCpu()
+        public CpuMetricsControllerTest()
         {
             _loggerMock = new Mock<ILogger<CpuMetricsController>>();
             _cpuMetricRepositoryMock = new Mock<MetricAgent.DAL.INetworkMetricRepository>();
