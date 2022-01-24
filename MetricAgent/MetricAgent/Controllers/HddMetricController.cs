@@ -1,4 +1,5 @@
-﻿using MetricAgent.DAL;
+﻿using AutoMapper;
+using MetricAgent.DAL;
 using MetricAgent.Models;
 using MetricAgent.Requests;
 using MetricAgent.Responses;
@@ -16,20 +17,22 @@ namespace MetricAgent.Controllers
     [ApiController]
     public class HddMetricController : ControllerBase
     {
-        private readonly ILogger<HddMetricController> _logger;
-        private readonly IHddMetricRepository _hddMetricRepository;
+        //private readonly ILogger<HddMetricController> _logger;
+        //private readonly IHddMetricRepository _hddMetricRepository;
 
-        public HddMetricController(ILogger<HddMetricController> logger, IHddMetricRepository hddMetricRepository)
-        {
-            _logger = logger;
-            _hddMetricRepository = hddMetricRepository;
-        }
+        //public HddMetricController(ILogger<HddMetricController> logger, IHddMetricRepository hddMetricRepository)
+        //{
+        //    _logger = logger;
+        //    _hddMetricRepository = hddMetricRepository;
+        //}
 
         private readonly IHddMetricRepository repository;
+        private readonly IMapper mapper;
 
-        public HddMetricController(IHddMetricRepository repository)
+        public HddMetricController(IHddMetricRepository repository, IMapper mapper)
         {
             this.repository = repository;
+            this.mapper = mapper;
         }
 
         [HttpPost("create")]
@@ -55,7 +58,7 @@ namespace MetricAgent.Controllers
 
             foreach (var metric in metrics)
             {
-                response.Metrics.Add(new HddMetricDto { Value = metric.TotalFreeSpace, Id = metric.Id });
+                response.Metrics.Add(mapper.Map<HddMetricDto>(metric));
             }
 
             return Ok(response);

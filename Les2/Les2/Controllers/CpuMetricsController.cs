@@ -27,6 +27,5 @@ namespace Les2.Controllers
         {
             return Ok();
         }
-
     }
 }

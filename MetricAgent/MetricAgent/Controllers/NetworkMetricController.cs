@@ -5,6 +5,7 @@ using MetricAgent.Responses;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using AutoMapper;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -17,10 +18,12 @@ namespace MetricAgent.Controllers
     {
 
         private readonly INetworkMetricRepository repository;
+        private readonly IMapper mapper;
 
-        public NetworkMetricController(INetworkMetricRepository repository)
+        public NetworkMetricController(INetworkMetricRepository repository, IMapper mapper)
         {
             this.repository = repository;
+            this.mapper = mapper;
         }
 
         [HttpPost("create")]
@@ -47,7 +50,7 @@ namespace MetricAgent.Controllers
 
             foreach (var metric in metrics)
             {
-                response.Metrics.Add(new NetworkMetricDto { Time = metric.Time, Value = metric.Value, Id = metric.Id });
+                response.Metrics.Add(mapper.Map<NetworkMetricDto>(metric));
             }
 
             return Ok(response);

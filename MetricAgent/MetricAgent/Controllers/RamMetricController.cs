@@ -1,4 +1,5 @@
-﻿using MetricAgent.DAL;
+﻿using AutoMapper;
+using MetricAgent.DAL;
 using MetricAgent.Models;
 using MetricAgent.Requests;
 using MetricAgent.Responses;
@@ -16,20 +17,22 @@ namespace MetricAgent.Controllers
     [ApiController]
     public class RamMetricController : ControllerBase
     {
-        private readonly ILogger<RamMetricController> _logger;
-        private readonly IRamMetricRepository _ramMetricRepository;
+        //private readonly ILogger<RamMetricController> _logger;
+        //private readonly IRamMetricRepository _ramMetricRepository;
 
-        public RamMetricController(ILogger<RamMetricController> logger, MetricAgent.DAL.IRamMetricRepository ramMetricRepository)
-        {
-            _logger = logger;
-            _ramMetricRepository = ramMetricRepository;
-        }
+        //public RamMetricController(ILogger<RamMetricController> logger, MetricAgent.DAL.IRamMetricRepository ramMetricRepository)
+        //{
+        //    _logger = logger;
+        //    _ramMetricRepository = ramMetricRepository;
+        //}
 
         private readonly IRamMetricRepository repository;
+        private readonly IMapper mapper;
 
-        public RamMetricController(IRamMetricRepository repository)
+        public RamMetricController(IRamMetricRepository repository, IMapper mapper)
         {
             this.repository = repository;
+            this.mapper = mapper;
         }
 
         [HttpPost("create")]
@@ -55,7 +58,7 @@ namespace MetricAgent.Controllers
 
             foreach (var metric in metrics)
             {
-                response.Metrics.Add(new RamMetricDto { Value = metric.TotalFreeSpace, Id = metric.Id });
+                response.Metrics.Add(mapper.Map<RamMetricDto>(metric));
             }
 
             return Ok(response);

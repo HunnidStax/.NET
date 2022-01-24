@@ -1,4 +1,5 @@
-﻿using MetricAgent.Controllers;
+﻿using AutoMapper;
+using MetricAgent.Controllers;
 using MetricAgent.DAL;
 using MetricAgent.Models;
 using Moq;
@@ -11,12 +12,13 @@ namespace MetricAgentTests
     {
         private NetworkMetricController controller;
         private Mock<INetworkMetricRepository> mock;
+        private Mock<IMapper> map;
 
         public NetworkMetricsControllerUnitTests()
         {
             mock = new Mock<INetworkMetricRepository>();
 
-            controller = new NetworkMetricController(mock.Object);
+            controller = new NetworkMetricController(mock.Object, map.Object);
         }
 
         [Fact]

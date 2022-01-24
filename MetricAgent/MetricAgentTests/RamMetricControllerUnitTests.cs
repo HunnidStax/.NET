@@ -3,6 +3,7 @@ using MetricAgent.Models;
 using MetricAgent.Controllers;
 using Moq;
 using Xunit;
+using AutoMapper;
 
 namespace MetricAgentTests
 {
@@ -10,12 +11,13 @@ namespace MetricAgentTests
     {
         private RamMetricController controller;
         private Mock<IRamMetricRepository> mock;
+        private Mock<IMapper> map;
 
         public RamMetricsControllerUnitTests()
         {
             mock = new Mock<IRamMetricRepository>();
 
-            controller = new RamMetricController(mock.Object);
+            controller = new RamMetricController(mock.Object, map.Object);
         }
 
         [Fact]

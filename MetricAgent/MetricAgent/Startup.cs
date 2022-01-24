@@ -4,9 +4,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using MetricAgent.DAL;
-using Microsoft.Data.Sqlite;
 using System.Data.SQLite;
 using System;
+using AutoMapper;
 
 namespace MetricsAgent
 {
@@ -22,18 +22,21 @@ namespace MetricsAgent
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers();
-            ConfigureSqlLiteConnection(services);
-            services.AddSingleton<IHddMetricRepository, HddMetricRepository>();
-            services.AddSingleton<IRamMetricRepository, RamMetricRepository>();
-            services.AddSingleton<ICpuMetricRepository, CpuMetricsRepository>();
-            services.AddSingleton<INetworkMetricRepository, NetworkMetricsRepository>();
+            var mapperConfiguration = new MapperConfiguration(mp => mp.AddProfile(new MapperProfile()));
+            var mapper = mapperConfiguration.CreateMapper();
+            services.AddSingleton(mapper);
+            //services.AddControllers();
+            //ConfigureSqlLiteConnection(services);
+            //services.AddSingleton<IHddMetricRepository, HddMetricRepository>();
+            //services.AddSingleton<IRamMetricRepository, RamMetricRepository>();
+            //services.AddSingleton<ICpuMetricRepository, CpuMetricsRepository>();
+            //services.AddSingleton<INetworkMetricRepository, NetworkMetricRepository>();
         }
 
         private void ConfigureSqlLiteConnection(IServiceCollection services)
         {
             const string connectionString = "Data Source=metrics.db;Version=3;Pooling=true;Max Pool Size=100;";
-            var connection = new SqliteConnection(connectionString);
+            var connection = new SQLiteConnection(connectionString);
             connection.Open();
             PrepareSchema(connection);
         }

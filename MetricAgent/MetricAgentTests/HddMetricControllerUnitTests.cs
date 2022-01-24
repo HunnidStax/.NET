@@ -3,6 +3,7 @@ using MetricAgent.Models;
 using MetricAgent.Controllers;
 using Moq;
 using Xunit;
+using AutoMapper;
 
 namespace MetricAgentTests
 {
@@ -10,12 +11,13 @@ namespace MetricAgentTests
     {
         private HddMetricController controller;
         private Mock<IHddMetricRepository> mock;
+        private Mock<IMapper> map;
 
         public HddMetricsControllerUnitTests()
         {
             mock = new Mock<IHddMetricRepository>();
 
-            controller = new HddMetricController(mock.Object);
+            controller = new HddMetricController(mock.Object, map.Object);
         }
 
         [Fact]
