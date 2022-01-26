@@ -9,6 +9,7 @@ using AutoMapper;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Logging;
 
 namespace MetricAgent.Controllers
 {
@@ -19,11 +20,13 @@ namespace MetricAgent.Controllers
 
         private readonly INetworkMetricRepository repository;
         private readonly IMapper mapper;
+        private readonly ILogger<NetworkMetricController> logger;
 
-        public NetworkMetricController(INetworkMetricRepository repository, IMapper mapper)
+        public NetworkMetricController(ILogger<NetworkMetricController> logger, INetworkMetricRepository repository, IMapper mapper)
         {
             this.repository = repository;
             this.mapper = mapper;
+            this.logger = logger;
         }
 
         [HttpPost("create")]

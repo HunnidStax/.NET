@@ -28,11 +28,13 @@ namespace MetricAgent.Controllers
 
         private readonly IHddMetricRepository repository;
         private readonly IMapper mapper;
+        private readonly ILogger<HddMetricController> logger;
 
-        public HddMetricController(IHddMetricRepository repository, IMapper mapper)
+        public HddMetricController(ILogger<HddMetricController> logger, IHddMetricRepository repository, IMapper mapper)
         {
             this.repository = repository;
             this.mapper = mapper;
+            this.logger = logger;
         }
 
         [HttpPost("create")]

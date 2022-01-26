@@ -28,11 +28,13 @@ namespace MetricAgent.Controllers
 
         private readonly IRamMetricRepository repository;
         private readonly IMapper mapper;
+        private readonly ILogger<RamMetricController> logger;
 
-        public RamMetricController(IRamMetricRepository repository, IMapper mapper)
+        public RamMetricController(ILogger<RamMetricController> logger, IRamMetricRepository repository, IMapper mapper)
         {
             this.repository = repository;
             this.mapper = mapper;
+            this.logger = logger;
         }
 
         [HttpPost("create")]

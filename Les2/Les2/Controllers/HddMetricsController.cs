@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
+using AutoMapper;
 
 namespace Les2.Controllers
 {
@@ -14,11 +15,13 @@ namespace Les2.Controllers
     {
         private readonly ILogger<HddMetricsController> _logger;
         private readonly MetricAgent.DAL.IHddMetricRepository _hddMetricRepository;
+        private readonly IMapper _mapper;
 
-        public HddMetricsController(ILogger<HddMetricsController> logger, MetricAgent.DAL.IHddMetricRepository hddMetricRepository)
+        public HddMetricsController(ILogger<HddMetricsController> logger, MetricAgent.DAL.IHddMetricRepository hddMetricRepository, IMapper mapper)
         {
             _logger = logger;
             _hddMetricRepository = hddMetricRepository;
+            _mapper = mapper;
         }
 
         [HttpGet("agentId/{agentId}/left/{TotalFreeSpace}")]

@@ -14,27 +14,16 @@ namespace MetricAgent.Controllers
     [ApiController]
     public class CpuMetricController : ControllerBase
     {
-        //private readonly ILogger<CpuMetricController> _logger;
-        //private readonly ICpuMetricRepository _cpuMetricRepository;
-
-        //public CpuMetricController(ILogger<CpuMetricController> logger, ICpuMetricRepository cpuMetricRepository)
-        //{
-        //    _logger = logger;
-        //    _cpuMetricRepository = cpuMetricRepository;
-        //}
-
         private readonly ICpuMetricRepository repository;
         private readonly IMapper mapper;
+        private readonly ILogger<CpuMetricController> logger;
 
-        public CpuMetricController(ICpuMetricRepository repository, IMapper mapper)
+        public CpuMetricController(ILogger<CpuMetricController> logger, ICpuMetricRepository repository, IMapper mapper)
         {
             this.repository = repository;
             this.mapper = mapper;
+            this.logger = logger;
         }
-        //public CpuMetricController(ICpuMetricRepository repository)
-        //{
-        //    this.repository = repository;
-        //}
 
         [HttpPost("create")]
         public IActionResult Create([FromBody] CpuMetricCreateRequest request)
