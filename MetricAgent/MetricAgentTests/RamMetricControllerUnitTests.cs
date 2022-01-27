@@ -4,6 +4,7 @@ using MetricAgent.Controllers;
 using Moq;
 using Xunit;
 using AutoMapper;
+using Microsoft.Extensions.Logging;
 
 namespace MetricAgentTests
 {
@@ -12,12 +13,13 @@ namespace MetricAgentTests
         private RamMetricController controller;
         private Mock<IRamMetricRepository> mock;
         private Mock<IMapper> map;
+        private Mock<ILogger<RamMetricController>> logger;
 
         public RamMetricsControllerUnitTests()
         {
             mock = new Mock<IRamMetricRepository>();
 
-            controller = new RamMetricController(mock.Object, map.Object);
+            controller = new RamMetricController(logger.Object, mock.Object, map.Object);
         }
 
         [Fact]

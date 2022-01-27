@@ -2,6 +2,7 @@
 using MetricAgent.Controllers;
 using MetricAgent.DAL;
 using MetricAgent.Models;
+using Microsoft.Extensions.Logging;
 using Moq;
 using System;
 using Xunit;
@@ -13,12 +14,13 @@ namespace MetricAgentTests
         private NetworkMetricController controller;
         private Mock<INetworkMetricRepository> mock;
         private Mock<IMapper> map;
+        private Mock<ILogger<NetworkMetricController>> logger;
 
         public NetworkMetricsControllerUnitTests()
         {
             mock = new Mock<INetworkMetricRepository>();
 
-            controller = new NetworkMetricController(mock.Object, map.Object);
+            controller = new NetworkMetricController(logger.Object, mock.Object, map.Object);
         }
 
         [Fact]

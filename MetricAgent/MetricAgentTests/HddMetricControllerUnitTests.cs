@@ -4,6 +4,7 @@ using MetricAgent.Controllers;
 using Moq;
 using Xunit;
 using AutoMapper;
+using Microsoft.Extensions.Logging;
 
 namespace MetricAgentTests
 {
@@ -12,12 +13,13 @@ namespace MetricAgentTests
         private HddMetricController controller;
         private Mock<IHddMetricRepository> mock;
         private Mock<IMapper> map;
+        private Mock<ILogger<HddMetricController>> logger;
 
         public HddMetricsControllerUnitTests()
         {
             mock = new Mock<IHddMetricRepository>();
 
-            controller = new HddMetricController(mock.Object, map.Object);
+            controller = new HddMetricController(logger.Object, mock.Object, map.Object);
         }
 
         [Fact]

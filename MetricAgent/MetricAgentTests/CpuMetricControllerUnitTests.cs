@@ -2,6 +2,7 @@
 using MetricAgent.Controllers;
 using MetricAgent.DAL;
 using MetricAgent.Models;
+using Microsoft.Extensions.Logging;
 using Moq;
 using System;
 using Xunit;
@@ -13,11 +14,12 @@ namespace MetricAgentTests
         private CpuMetricController controller;
         private Mock<ICpuMetricRepository> mock;
         private Mock<IMapper> map;
+        private Mock<ILogger<CpuMetricController>> logger;
 
         public CpuMetricControllerUnitTests()
         {
             mock = new Mock<ICpuMetricRepository>();
-            controller = new CpuMetricController(mock.Object, map.Object);
+            controller = new CpuMetricController(logger.Object, mock.Object, map.Object);
         }
 
         [Fact]
