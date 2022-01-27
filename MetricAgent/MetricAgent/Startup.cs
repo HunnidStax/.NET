@@ -8,6 +8,11 @@ using System.Data.SQLite;
 using FluentMigrator.Runner;
 using System;
 using AutoMapper;
+using MetricAgent.Jobs;
+using Quartz.Spi;
+using Quartz;
+using Quartz.Impl;
+using MetricAgent.Hosting;
 
 namespace MetricsAgent
 {
@@ -32,11 +37,22 @@ namespace MetricsAgent
             var mapper = mapperConfiguration.CreateMapper();
             services.AddSingleton(mapper);
 
+            services.AddSingleton<IJobFactory, SingletonJobFactory>();
+            services.AddSingleton<ISchedulerFactory, StdSchedulerFactory>();
+            services.AddSingleton<CpuMetricJob>();
+            services.AddSingleton(new JobSchedule(
+                jobType: typeof(CpuMetricJob),
+                cronExpression: "0/5 * * * * ?")); // запускать каждые 5 секунд
+            services.AddSingleton(new JobSchedule(
+                jobType: typeof(CpuMetricJob),
+                cronExpression: "0/5 * * * * ?"));
+
+            services.AddHostedService<QuartzHostedService>();
+
+
             services.AddFluentMigratorCore()
                 .ConfigureRunner(rb => rb
-                    // добавляем поддержку SQLite 
                     .AddSQLite()
-                    // устанавливаем строку подключения
                     .WithGlobalConnectionString(ConnectionString)
                     // подсказываем где искать классы с миграциями
                     .ScanIn(typeof(Startup).Assembly).For.Migrations()
