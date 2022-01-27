@@ -18,7 +18,10 @@ namespace MetricAgent.Hosting
         private readonly IEnumerable<JobSchedule> _jobSchedules;
 
         public QuartzHostedService(
-            ICpuMetricRepository repository,
+            ICpuMetricRepository cpurepository,
+            INetworkMetricRepository networkrepository,
+            IHddMetricRepository hddrepository,
+            IRamMetricRepository ramrepository,
             ISchedulerFactory schedulerFactory,
             IJobFactory jobFactory,
             IEnumerable<JobSchedule> jobSchedules)
