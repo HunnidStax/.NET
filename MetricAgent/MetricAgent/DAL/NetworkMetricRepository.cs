@@ -76,4 +76,3 @@ namespace MetricAgent.DAL
         }
     }
 }
-}
