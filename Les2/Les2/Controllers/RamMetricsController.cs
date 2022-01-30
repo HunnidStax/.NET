@@ -14,10 +14,10 @@ namespace Les2.Controllers
     public class RamMetricsController : ControllerBase
     {
         private readonly ILogger<RamMetricsController> _logger;
-        private readonly MetricAgent.DAL.IRamMetricRepository _ramMetricRepository;
+        private readonly MetricAgent.DAL.IRamMetricsRepository _ramMetricRepository;
         private readonly IMapper _mapper;
 
-        public RamMetricsController(ILogger<RamMetricsController> logger, MetricAgent.DAL.IRamMetricRepository ramMetricRepository, IMapper mapper)
+        public RamMetricsController(ILogger<RamMetricsController> logger, MetricAgent.DAL.IRamMetricsRepository ramMetricRepository, IMapper mapper)
         {
             _logger = logger;
             _ramMetricRepository = ramMetricRepository;

@@ -8,76 +8,63 @@ using System.Threading.Tasks;
 
 namespace MetricAgent.DAL
 {
-    public class CpuMetricRepository : ICpuMetricRepository
+    //собираемые параметры будут изменятся и добовляться
+    public class RamMetricRepository : IRamMetricRepository
     {
         private const string ConnectionString = "Data Source=metrics.db;Version=3;Pooling=true;Max Pool Size=100;";
 
-        public CpuMetricRepository()
-        {
-            SqlMapper.AddTypeHandler(new TimeSpanHandler());
-        }
-
-
-        public void Create(CpuMetric item)
+        public void Create(RamMetric item)
         {
             using (var connection = new SQLiteConnection(ConnectionString))
             {
-                connection.Execute("INSERT INTO cpumetrics(value, time) VALUES(@value, @time)",
+                connection.Execute("INSERT INTO rammetrics(value) VALUES(@value)",
                     new
                     {
-                        value = item.Value,
-
-                        time = item.Time.TotalSeconds
+                        value = item.TotalFreeSpace
                     });
             }
-
         }
 
         public void Delete(int id)
         {
             using (var connection = new SQLiteConnection(ConnectionString))
             {
-                connection.Execute("DELETE FROM cpumetrics WHERE id=@id",
+                connection.Execute("DELETE FROM rammetrics WHERE id=@id",
                     new
                     {
                         id = id
                     });
             }
-
         }
 
-        public void Update(CpuMetric item)
+        public void Update(RamMetric item)
         {
             using (var connection = new SQLiteConnection(ConnectionString))
             {
-                connection.Execute("UPDATE cpumetrics SET value = @value, time = @time WHERE id=@id",
+                connection.Execute("UPDATE rammetrics SET TotalFreeSpace = @value WHERE id=@id",
                     new
                     {
-                        value = item.Value,
-                        time = item.Time.TotalSeconds,
+                        value = item.TotalFreeSpace,
                         id = item.Id
                     });
             }
-
         }
 
-        public IList<CpuMetric> GetAll()
+        public IList<RamMetric> GetAll()
         {
             using (var connection = new SQLiteConnection(ConnectionString))
             {
-                return connection.Query<CpuMetric>("SELECT Id, Time, Value FROM cpumetrics").ToList();
+                return connection.Query<RamMetric>("SELECT Id, Value FROM rammetrics").ToList();
             }
-
         }
 
-        public CpuMetric GetById(int id)
+        public RamMetric GetById(int id)
         {
             using (var connection = new SQLiteConnection(ConnectionString))
             {
-                return connection.QuerySingle<CpuMetric>("SELECT Id, Time, Value FROM cpumetrics WHERE id=@id",
+                return connection.QuerySingle<RamMetric>("SELECT Id, Value FROM rammetrics WHERE id=@id",
                     new { id = id });
             }
-
         }
     }
 }

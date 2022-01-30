@@ -14,10 +14,10 @@ namespace Les2.Controllers
     public class NetworkMetricsController : ControllerBase
     {
         private readonly ILogger<NetworkMetricsController> _logger;
-        private readonly MetricAgent.DAL.INetworkMetricRepository _networkMetricRepository;
+        private readonly MetricAgent.DAL.INetworkMetricsRepository _networkMetricRepository;
         private readonly IMapper _mapper;
 
-        public NetworkMetricsController(ILogger<NetworkMetricsController> logger, MetricAgent.DAL.INetworkMetricRepository networkMetricRepository, IMapper mapper)
+        public NetworkMetricsController(ILogger<NetworkMetricsController> logger, MetricAgent.DAL.INetworkMetricsRepository networkMetricRepository, IMapper mapper)
         {
             _logger = logger;
             _networkMetricRepository = networkMetricRepository;
